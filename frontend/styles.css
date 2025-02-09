@@ -1,9 +1,9 @@
 /* Color Palette */
 :root {
-    --soft-beige: #e3d8af;
-    --warm-orange: #d9884a;
-    --pale-green: #b8c6a6;
-    --deep-green: #4b8253;
+    --soft-beige: #F7F6DC;
+    --warm-orange: #FFC090;
+    --pale-green: #B1D7B4;
+    --deep-green: #445C3C;
 }
 
 /* General Styling */
@@ -94,7 +94,10 @@ button:hover {
     transition: color 0.3s, font-weight 0.3s;
 }
 
-/* Only Step 1 is highlighted at the start */
+.step.active {
+    color: var(--pale-green);
+    font-weight: bold;
+}
 
 /* Result Emoji */
 .big-emoji {
@@ -109,4 +112,27 @@ button:hover {
     font-size: 16px;
     color: black;
     text-align: left;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .header {
+        width: 90%;
+        margin: 20px auto;
+    }
+
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .instructions, .camera-box, .info-box {
+        width: 90%;
+        margin-bottom: 20px;
+    }
+
+    video, canvas {
+        width: 100%;
+        max-width: 100%;
+    }
 }
