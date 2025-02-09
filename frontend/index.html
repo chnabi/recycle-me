@@ -120,19 +120,23 @@
 
                         const formData = new FormData();
                         formData.append("file", blob, "captured_image.png");
-                        formData.append("lat", lat);
-                        formData.append("long", long);
-                        formData.append("city", city);
-                        formData.append("county", county);
-                        console.log(formData.get("file"));
-                        console.log(formData.get("lat"));
-                        console.log(formData.get("long"));
-                        console.log(formData.get("city"));
-                        console.log(formData.get("county"));
+                        // formData.append("lat", lat);
+                        // formData.append("long", long);
+                        // formData.append("city", city);
+                        // formData.append("county", county);
+                        // console.log(formData.get("file"));
+                        // console.log(formData.get("lat"));
+                        // console.log(formData.get("long"));
+                        // console.log(formData.get("city"));
+                        // console.log(formData.get("county"));
                         fetch("http://127.0.0.1:8000/inform", {
                             method: "POST",
                             mode: "cors",
-                            body: formData,
+                            img: formData,
+                            city: city,
+                            long: long,
+                            lat: lat,
+                            county: county,
                         })
                         .then((response) => response.json())
                         .then((json) => console.log(json))
