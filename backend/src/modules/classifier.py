@@ -18,11 +18,11 @@ class ClassifierModule:
         img_str = base64.b64encode(image.image).decode("utf-8")
         print("arrived")
         response = await self.openai_client.chat.completions.create(
-            model="gpt-4",  # Adjust the model if necessary
+            model="gpt-4-turbo",  # Adjust the model if necessary
             messages=[
                 {
                     "role": "user",
-                    "content": "What material is the object in this image made of? Please provide the material type only (e.g., plastic, glass, metal).",
+                    "content": "What material is the object in this image made of (for recycling purposes)?",
                 },
                 {"role": "user", "content": f"data:image/png;base64,{img_str}"},
             ],

@@ -9,11 +9,11 @@ router: APIRouter = APIRouter()
 
 
 @router.post("/inform")
-async def inform_recycle(request: Request, image: UploadFile = File(...)):
-    print("first cheackpoint")
-    image_data = await image.read()
-    print(f"Received file: {image.filename}, Size: {len(image_data)} bytes")
-    image_request: ImageRequest = ImageRequest(image=image_data)
+async def inform_recycle(
+    request: Request, file: UploadFile = File(...)
+):  # Use "file" instead of "image"
+    image_data = await file.read()
+    image_request = ImageRequest(image=image_data)
     classifier_module: ClassifierModule = request.app.state.classifier_module
     material = await classifier_module.query_vision(image_request)
     return {"material": material}
