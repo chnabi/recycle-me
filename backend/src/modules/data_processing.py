@@ -298,8 +298,11 @@ def check_item_in_city(county, city, item, lat, long):
     return "This item cannot be recycled in your area!"
 
 
-print(
-    check_item_in_city(
-        "Wake County", "Morrisville", "aluminum", 35.85713577270508, -78.84783935546875
-    )
-)
+def find_county_by_city(city):
+    # Filter the recycling data for the given city
+    city_data = recycling_df[recycling_df["City"] == city]
+
+    # Check if city is found and return the county
+    if not city_data.empty:
+        return city_data["County"].iloc[0]  # Return the first county found for the city
+    return None

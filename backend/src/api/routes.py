@@ -3,17 +3,15 @@ from fastapi.responses import JSONResponse
 from io import BytesIO
 from src.modules.classifier import ClassifierModule
 
-from src.models import ImageRequest
+from src.models import InfoRequest
 
 router: APIRouter = APIRouter()
 
 
 @router.post("/inform")
-async def inform_recycle(
-    request: Request, file: UploadFile = File(...)
-):  # Use "file" instead of "image"
-    image_data = await file.read()
-    image_request = ImageRequest(image=image_data)
+async def inform_recycle(request: Request, data: InfoRequest):
+    image_data = await data.img.read()
     classifier_module: ClassifierModule = request.app.state.classifier_module
-    material = await classifier_module.query_vision(image_request)
+    material = await classifier_module.query_vision(image_data)
+    recycleable: str = await classifier_module.find_guidelines(material, data)
     return {"material": material}

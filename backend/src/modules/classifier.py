@@ -7,15 +7,16 @@ from openai import AsyncOpenAI
 import pandas as pd
 
 # internal
-from src.models import ImageRequest
+from modules.data_processing import check_item_in_city, find_county_by_city
+from src.models import InfoRequest
 
 
 class ClassifierModule:
     def __init__(self, openai_client: AsyncOpenAI):
         self.openai_client = openai_client
 
-    async def query_vision(self, image: ImageRequest):
-        img_str = base64.b64encode(image.image).decode("utf-8")
+    async def query_vision(self, image: bytes):
+        img_str = base64.b64encode(image).decode("utf-8")
         print("arrived")
         response = await self.openai_client.chat.completions.create(
             model="gpt-4o",  # Adjust the model if necessary
@@ -36,5 +37,9 @@ class ClassifierModule:
         material = response.choices[0].message.content  # Adjust if needed
         return material
 
-    async def find_guidelines(self, material: str):
-        return
+    async def find_guidelines(self, material, geo_info: InfoRequest):
+        county = find_county_by_city(geo_info.city)
+        response = check_item_in_city(
+            county, geo_info.city, material, geo_info.lat, geo_info.long
+        )
+        return response
