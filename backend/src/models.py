@@ -1,8 +1,9 @@
 from pydantic import BaseModel
+from io import BytesIO
 
 
 class ImageRequest(BaseModel):
-    image: str
+    image: bytes
 
 
 class MaterialOutput(BaseModel):
