@@ -67,7 +67,7 @@
         //convert users position to recycling district
 
         async function getCityFromCoords(latitude, longitude, apiKey) {
-            const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&apiKey=${apiKey}`;
+            const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&apiKey=${apiKey}`;
 
             try {
                 const response = await fetch(url);
@@ -84,7 +84,7 @@
             }
         }
 
-        console.log(lat + " " + long);
+        console.log(lat + "testing" + long);
         getCityFromCoords(lat, long, myAPIKey)
             .then(city => console.log("City:", city))
             .catch(error => console.error(error));
@@ -106,10 +106,11 @@
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
                 context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                resb64 = canvas.toDataURL("image/png");
+                resb64 = canvas.toDataURL("image/png", 0.5);
 
                 fetch("http://127.0.0.1:8000/inform", {
                     method: "POST",
+                    mode: 'cors',
                     body: JSON.stringify({
                         image: resb64
                     }),
