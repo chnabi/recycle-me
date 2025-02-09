@@ -52,7 +52,8 @@
         var resb64 ="";
         let lat; 
         let long;
-        var district;
+        let city = "";
+        let county = "";
 
         // get users current position
         function getlocation() {
@@ -64,8 +65,13 @@
             console.log(lat + " " + long);
 
             getCityFromCoords(lat, long, myAPIKey)
-                .then(city => console.log("City:", city))
-                .catch(error => consol.error(error));
+                .then(({city: fetchedCity, county: fetchedCounty}) => {
+                    console.log(fetchedCity);
+                    console.log(fetchedCounty);
+                    city = fetchedCity;
+                    county = fetchedCounty;
+                })
+                .catch(error => console.error(error));
         }
 
         //convert users position to recycling district
@@ -78,7 +84,12 @@
                 const data = await response.json();
 
                 if (data.features && data.features.length > 0) {
-                    return data.features[0].properties.city || "City not found";
+
+                    let properties = data.features[0].properties;
+                    let city = properties.city;
+                    let county = properties.county;
+
+                    return {city, county};
                 } else {
                     return "Location not found";
                 }
@@ -109,7 +120,15 @@
 
                         const formData = new FormData();
                         formData.append("file", blob, "captured_image.png");
+                        formData.append("lat", lat);
+                        formData.append("long", long);
+                        formData.append("city", city);
+                        formData.append("county", county);
                         console.log(formData.get("file"));
+                        console.log(formData.get("lat"));
+                        console.log(formData.get("long"));
+                        console.log(formData.get("city"));
+                        console.log(formData.get("county"));
                         fetch("http://127.0.0.1:8000/inform", {
                             method: "POST",
                             mode: "cors",
@@ -122,10 +141,10 @@
                     }, "image/png", 0.7); // PNG with 50% quality
                 
 
-
-
                 canvas.style.display = 'block';
                 video.style.display = 'none';
+
+                console.log(county, city, "plastic", lat, long);
 
                 scanButton.textContent = 'Scan Again';
                 scanning = false;
