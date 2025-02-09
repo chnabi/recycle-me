@@ -1,10 +1,11 @@
 {
-    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.13",
+    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.11",
     "customizations": {
         "vscode": {
             "extensions": [
                 "ms-python.python",
-                "ms-python.black-formatter"
+                "ms-python.black-formatter",
+                "alexcvzz.vscode-sqlite"
             ],
             "settings": {
                 "[python]": {
@@ -21,9 +22,11 @@
             }
         }
     },
-    "postCreateCommand": "pip install -r requirements.txt && pip install pandas",
-    "runArgs": [
-        "--env",
-        "OPENAI_API_KEY=<your-api-key>"
-    ]
+    "postCreateCommand": "pip install -r requirements.txt && pip install pandas sqlite3",
+    "remoteEnv": {
+        "OPENAI_API_KEY": "${localEnv:OPENAI_API_KEY}"
+    },
+    "features": {
+        "ghcr.io/devcontainers/features/sqlite:1": {}
+    }
 }
