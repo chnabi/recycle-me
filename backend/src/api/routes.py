@@ -37,3 +37,24 @@ async def inform_recycle(
             "recycling_info": recycleable,
         }
     )
+
+
+@router.post("/inform/manual")
+async def manual_inform(
+    request: Request,
+    material: str = Form(...),
+    city: str = Form(...),
+    long: float = Form(...),
+    lat: float = Form(...),
+    county: str = Form(...),
+):
+    classifier_module = request.app.state.classifier_module
+    recycleable: str = await classifier_module.find_guidelines(
+        material, city, long, lat, county
+    )
+    return JSONResponse(
+        content={
+            "material": find_recyclable_material(material),
+            "recycling_info": recycleable,
+        }
+    )
