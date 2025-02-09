@@ -50,8 +50,8 @@
         let scanning = true;
         const myAPIKey = "nice try";
         var resb64 ="";
-        var lat;
-        var long;
+        let lat; 
+        let long;
         var district;
 
         // get users current position
@@ -106,20 +106,23 @@
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
                 context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                resb64 = canvas.toDataURL("image/png", 0.5);
+                
+                canvas.toBlob((blob) => {
+                        if (!blob) return;
 
-                fetch("http://127.0.0.1:8000/inform", {
-                    method: "POST",
-                    mode: 'cors',
-                    body: JSON.stringify({
-                        image: resb64
-                    }),
-                    headers: {
-                        "Content-type": "application/json; charset=UTF-8"
-                    }
-                })
-                .then((response) => response.json())
-                .then((json) => console.log(json));
+                        const formData = new FormData();
+                        formData.append("file", blob, "captured_image.png");
+                        fetch("http://127.0.0.1:8000/inform", {
+                            method: "POST",
+                            mode: "cors",
+                            body: formData,
+                        })
+                        .then((response) => response.json())
+                        .then((json) => console.log(json))
+                        .catch((error) => console.error("Upload failed:", error));
+
+                    }, "image/png", 0.5); // PNG with 50% quality
+                
 
 
 
