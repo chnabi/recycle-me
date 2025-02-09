@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recycle Me</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="/frontend/favicon.ico">
 </head>
 <body onload="getlocation()">
     <div class="header">
         <h1>Recycle Me</h1>
-        <p class="description">Recycle Me is an interactive tool designed to help users determine whether an item is recyclable. Using your device's camera, simply scan the item, and our system will analyze it. Within seconds, you'll receive a result indicating whether it can be recycled based on your location. Thank you for making environmentally conscious decisions and contributing to a more sustainable future.</p>
+        <p class="description">Recycle Me is an interactive tool designed to help users determine whether an item is recyclable. Using your device's camera, simply scan the item, and our system will analyze it. Within seconds, you'll receive a result indicating whether it can be recycled, helping you make environmentally conscious decisions and reduce waste effectively.</p>
     </div>
 
     <div class="container">
         <div class="instructions">
             <h2>Instructions</h2>
-            <p></p>
             <ul>
                 <li class="step active">Step 1: Place the item in front of the camera.</li>
                 <li class="step">Step 2: Click "Scan Me" to capture an image.</li>
@@ -121,23 +121,19 @@
 
                         const formData = new FormData();
                         formData.append("file", blob, "captured_image.png");
-                        // formData.append("lat", lat);
-                        // formData.append("long", long);
-                        // formData.append("city", city);
-                        // formData.append("county", county);
-                        // console.log(formData.get("file"));
-                        // console.log(formData.get("lat"));
-                        // console.log(formData.get("long"));
-                        // console.log(formData.get("city"));
-                        // console.log(formData.get("county"));
+                        formData.append("city", city);
+                        formData.append("long", long);
+                        formData.append("lat", lat);
+                        formData.append("county", county);
+                        console.log(formData.get("file"));
+                        console.log(formData.get("city"));
+                        console.log(formData.get("long"));
+                        console.log(formData.get("lat"));
+                        console.log(formData.get("county"));
                         fetch("http://127.0.0.1:8000/inform", {
                             method: "POST",
                             mode: "cors",
-                            img: formData,
-                            city: city,
-                            long: long,
-                            lat: lat,
-                            county: county,
+                            body: formData,
                         })
                         .then((response) => response.json())
                         .then((json) => console.log(json))
@@ -149,12 +145,9 @@
                 canvas.style.display = 'block';
                 video.style.display = 'none';
 
-                console.log(county, city, "plastic", lat, long);
-
                 scanButton.textContent = 'Scan Again';
                 scanning = false;
-                console.log("Scanning state changed to:", scanning);
-                console.log("Base 64 Encoded Image:", resb64);
+
 
                 updateSteps(2);
 
