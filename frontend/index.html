@@ -126,68 +126,71 @@
                 context.drawImage(video, 0, 0, canvas.width, canvas.height);
                 
                 canvas.toBlob((blob) => {
-                        if (!blob) return;
+                    if (!blob) return;
 
-                        const formData = new FormData();
-                        formData.append("file", blob, "captured_image.png");
-                        formData.append("city", city);
-                        formData.append("long", long);
-                        formData.append("lat", lat);
-                        formData.append("county", county);
-                        console.log(formData.get("file"));
-                        console.log(formData.get("city"));
-                        console.log(formData.get("long"));
-                        console.log(formData.get("lat"));
-                        console.log(formData.get("county"));
-                        fetch("http://127.0.0.1:8000/inform", {
-                            method: "POST",
-                            mode: "cors",
-                            body: formData,
-                        })
-                        .then((response) => response.json())
-                        .then((data) => {
-                            const savedResponse = data;
-                        })
-                        .catch((error) => console.error("Upload failed:", error));
+                    const formData = new FormData();
+                    formData.append("file", blob, "captured_image.png");
+                    formData.append("city", city);
+                    formData.append("long", long);
+                    formData.append("lat", lat);
+                    formData.append("county", county);
 
-                    }, "image/png", 1); // PNG with 50% quality
-                
+                    // Update UI to show scanning state
+                    canvas.style.display = 'block';
+                    video.style.display = 'none';
+                    scanButton.textContent = 'Scan Again';
+                    scanning = false;
+                    updateSteps(2);
+                    resultText.innerHTML = "Analyzing...";
+                    resultEmoji.innerHTML = "🔍";
+                    itemInfo.innerHTML = "Processing your image...";
 
-                canvas.style.display = 'block';
-                video.style.display = 'none';
+                    fetch("http://127.0.0.1:8000/inform", {
+                        method: "POST",
+                        mode: "cors",
+                        body: formData,
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        // Process the response
+                        let emoji, description;
+                        
+                        if (data.found) {
+                            if (data.recyclable) {
+                                emoji = "✅";
+                                description = `${data.material_type} - This item is recyclable! Make sure the item is clean and free of any contaminants before placing it in the appropriate recycling bin to ensure proper processing ${data.recycling_instructions || 'Please check local recycling guidelines for specific instructions.'}`;
+                            } else {
+                                emoji = "❌";
+                                description = `${data.material_type} -  This item is not recyclable! Consider reusing, repurposing, or disposing of it according to your local waste management guidelines to minimize environmental impact ${data.disposal_instructions || 'Please dispose of it in regular waste.'}`;
+                            }
+                        } else {
+                            emoji = "🧐";
+                            description = "We couldn't identify this item in our current database. We're constantly expanding our recognition capabilities, but in the meantime, please check your local government's recycling guidelines for accurate information about this item's recyclability";
+                        }
 
-                scanButton.textContent = 'Scan Again';
-                scanning = false;
+                        resultText.innerHTML = `This is ${data.material_type || '...'}`;
+                        resultEmoji.innerHTML = `<span class="big-emoji">${emoji}</span>`;
+                        itemInfo.innerHTML = description;
+                        updateSteps(3);
+                    })
+                    .catch((error) => {
+                        console.error("Upload failed:", error);
+                        resultText.innerHTML = "Error analyzing image";
+                        resultEmoji.innerHTML = "⚠️";
+                        itemInfo.innerHTML = "There was an error processing your image. Please try again.";
+                    });
 
+                }, "image/png", 1);
 
-                updateSteps(2);
-
-                setTimeout(() => {
-                    const results = ['✅', '❌', '🧐'];
-                    const itemDetails = [
-                        "Plastic Bottle - This item is recyclable. Please rinse it before disposal.",
-                        "Paper Cup - This item is NOT recyclable due to the wax coating.",
-                        "Aluminum Can - 100% recyclable. Ensure it's empty before recycling."
-                    ];
-                    const randomIndex = Math.floor(Math.random() * results.length);
-                    
-                    resultText.innerHTML = `This is ...`;
-                    resultEmoji.innerHTML = `<span class="big-emoji">${results[randomIndex]}</span>`;
-                    itemInfo.innerHTML = itemDetails[randomIndex];
-
-                    updateSteps(3);
-                }, 2000);
             } else {
+                // Reset for new scan
                 canvas.style.display = 'none';
                 video.style.display = 'block';
                 scanButton.textContent = 'Scan Me';
                 resultText.innerHTML = "This is ...";
                 resultEmoji.innerHTML = "";
                 itemInfo.innerHTML = "Item details will appear here after analysis.";
-                
                 scanning = true;
-                console.log("Scanning state changed to:", scanning);
-
                 updateSteps(0);
             }
         });
