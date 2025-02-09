@@ -18,15 +18,15 @@ class ClassifierModule:
         img_str = base64.b64encode(image.image).decode("utf-8")
         print("arrived")
         response = await self.openai_client.chat.completions.create(
-            model="gpt-4-turbo",  # Adjust the model if necessary
-                messages=[
+            model="gpt-4o",  # Adjust the model if necessary
+            messages=[
                 {
                     "role": "system",
-                    "content": "You are an expert in material identification for recycling purposes. Analyze the image and determine the primary material of the object shown. Focus on common recyclable materials such as plastic, glass, metal, paper, or cardboard. If unsure, provide your best estimate and explain your reasoning.",
+                    "content": "You are an expert in material identification for recycling purposes. Analyze the image and determine the primary material of the object shown (e.g ). If unsure, provide your best estimate and explain your reasoning.",
                 },
                 {
                     "role": "user",
-                    "content": "What is the primary material of the object in this image? Please provide a short phrase answer (e.g ).",
+                    "content": "What is the object in this image? Please include a description of the material. Give a short phrase or one word answer",
                 },
                 {"role": "user", "content": f"data:image/png;base64,{img_str}"},
             ],
