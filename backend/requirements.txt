@@ -3,3 +3,5 @@ uvicorn
 openai
 pydantic-settings
 pandas
+python-multipart
+
