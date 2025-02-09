@@ -11,7 +11,6 @@ class RecycleEnum(Enum):
 
 
 class InfoRequest(BaseModel):
-    img: str
     city: str
     long: float
     lat: float
