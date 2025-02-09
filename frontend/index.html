@@ -201,6 +201,47 @@
                 } 
             });
         }
+
+        // Get references to elements
+        const manualInput = document.getElementById("manualInput");
+        const checkMaterialButton = document.getElementById("checkMaterial");
+
+        // Attach click event listener to the button
+        checkMaterialButton.addEventListener("click", async function() {
+            const material = manualInput.value.trim(); // Get the input value
+
+            if (!material) {
+                alert("Please enter a material type.");
+                return; // Exit if no input is provided
+            }
+
+            // Create FormData object
+            const formData = new FormData();
+            formData.append("material", material); // Add material type to the FormData
+            formData.append("city", city);
+            formData.append("long", long);
+            formData.append("lat", lat);
+            formData.append("county", county);
+
+            try {
+                // Send POST request to the backend
+                const response = await fetch("http://127.0.0.1:8000/inform", {
+                    method: "POST",
+                    mode: "cors",
+                    body: formData,
+                });
+
+                // Convert response to JSON
+                const savedResponse = await response.json();
+
+                // Handle response
+                console.log("Server Response:", jsonResponse);
+                alert("Response: " + JSON.stringify(jsonResponse)); // Show response in an alert
+            } catch (error) {
+                console.error("Fetch failed:", error);
+                alert("Error occurred while checking recyclability.");
+            }
+        });
     </script>
 </body>
 </html>
