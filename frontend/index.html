@@ -6,7 +6,7 @@
     <title>Recycle Me</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body onload="getlocation()">
     <div class="header">
         <h1>Recycle Me</h1>
         <p class="description">Recycle Me is an interactive tool designed to help users determine whether an item is recyclable. Using your device's camera, simply scan the item, and our system will analyze it. Within seconds, you'll receive a result indicating whether it can be recycled, helping you make environmentally conscious decisions and reduce waste effectively.</p>
@@ -45,23 +45,67 @@
         const resultEmoji = document.getElementById('resultEmoji');
         const itemInfo = document.getElementById('itemInfo');
         const steps = document.querySelectorAll('.step');
+        
 
         let scanning = true;
+        const myAPIKey = "nice try";
         var resb64 ="";
+        var lat;
+        var long;
+        var district;
 
+        // get users current position
+        function getlocation() {
+            navigator.geolocation.getCurrentPosition(showLoc);
+        }
+        function showLoc(pos) {             
+            lat = pos.coords.latitude;
+            long = pos.coords.longitude;
+            console.log(lat + " " + long);
+        }
+
+        //convert users position to recycling district
+
+        async function getCityFromCoords(latitude, longitude, apiKey) {
+            const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&apiKey=${apiKey}`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.features && data.features.length > 0) {
+                    return data.features[0].properties.city || "City not found";
+                } else {
+                    return "Location not found";
+                }
+            } catch (error) {
+                console.error("Error fetching location data:", error);
+                return "Error fetching data";
+            }
+        }
+
+        getCityFromCoords(lat, long, myAPIKey)
+            .then(city => console.log("City:", city))
+            .catch(error => console.error(error));
+
+
+        
+        //start video feed
         navigator.mediaDevices.getUserMedia({ video: true })
             .then(stream => {
                 video.srcObject = stream;
             })
             .catch(error => console.error('Error accessing camera:', error));
+        
 
+        //allow user to take photo
         scanButton.addEventListener('click', () => {
             if (scanning) {
                 const context = canvas.getContext('2d');
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
                 context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                resb64 = canvas.toDataURL();
+                resb64 = canvas.toDataURL("image/png");
                 canvas.style.display = 'block';
                 video.style.display = 'none';
 
@@ -102,6 +146,7 @@
             }
         });
 
+        //increment through instructions
         function updateSteps(currentStep) {
             steps.forEach((step, index) => {
                 step.classList.remove('active');
