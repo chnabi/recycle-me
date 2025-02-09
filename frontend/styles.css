@@ -1,0 +1,112 @@
+/* Color Palette */
+:root {
+    --soft-beige: #e3d8af;
+    --warm-orange: #d9884a;
+    --pale-green: #b8c6a6;
+    --deep-green: #4b8253;
+}
+
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--pale-green);
+    min-height: 100vh;
+}
+
+/* Boxed Header */
+.header {
+    background-color: var(--soft-beige);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 800px;
+    margin-top: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: var(--deep-green);
+    margin-bottom: 10px;
+}
+
+.description {
+    font-size: 18px;
+    color: var(--deep-green);
+}
+
+/* Main Layout */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 90%;
+    max-width: 1400px;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+/* Beige Box for Instructions */
+.instructions, .camera-box, .info-box {
+    width: 30%;
+    padding: 20px;
+    background-color: var(--soft-beige);
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Camera Styling */
+video, canvas {
+    width: 85%;
+    max-width: 320px;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Button Styling */
+button {
+    background-color: var(--pale-green);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 5px;
+    display: block; 
+    margin: 10px auto;
+    text-align: center;
+}
+
+button:hover {
+    background-color: var(--deep-green);
+}
+
+/* Step Styling */
+.step {
+    padding: 8px;
+    transition: color 0.3s, font-weight 0.3s;
+}
+
+/* Only Step 1 is highlighted at the start */
+
+/* Result Emoji */
+.big-emoji {
+    font-size: 80px;
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Information Box */
+.info-box p {
+    font-size: 16px;
+    color: black;
+    text-align: left;
+}

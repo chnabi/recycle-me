@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recycle Me</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Recycle Me</h1>
+        <p class="description">Recycle Me is an interactive tool designed to help users determine whether an item is recyclable. Using your device’s camera, simply scan the item, and our system will analyze it. Within seconds, you’ll receive a result indicating whether it can be recycled, helping you make environmentally conscious decisions and reduce waste effectively.</p>
+    </div>
+
+    <div class="container">
+        <div class="instructions">
+            <h2>Instructions</h2>
+            <ol>
+                <li class="step active">Step 1: Place the item in front of the camera.</li>
+                <li class="step">Step 2: Click "Scan Me" to capture an image.</li>
+                <li class="step">Step 3: Wait for analysis.</li>
+                <li class="step">Step 4: Check the result below the image.</li>
+            </ol>
+        </div>
+
+        <div class="camera-box">
+            <video id="video" autoplay></video>
+            <canvas id="canvas" style="display:none;"></canvas>
+            <button id="scanButton">Scan Me</button>
+            <p id="resultText">This is ...</p>
+            <p id="resultEmoji"></p>
+        </div>
+
+        <div class="info-box">
+            <h2>Information about the Item</h2>
+            <p>Item details will appear after analysis.</p>
+        </div>
+    </div>
+    
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const scanButton = document.getElementById('scanButton');
+        const resultText = document.getElementById('resultText');
+        const resultEmoji = document.getElementById('resultEmoji');
+        const itemInfo = document.getElementById('itemInfo');
+        const steps = document.querySelectorAll('.step');
+
+        let scanning = true;
+
+        // Access webcam
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(error => console.error('Error accessing webcam:', error));
+
+        scanButton.addEventListener('click', () => {
+            if (scanning) {
+                // Capture the image
+                const context = canvas.getContext('2d');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                canvas.style.display = 'block';
+                video.style.display = 'none'; // Hide webcam
+
+                // Update button
+                scanButton.textContent = 'Scan Again';
+                scanning = false;
+
+                // Highlight Step 3 (Processing)
+                updateSteps(2);
+
+                // Simulated analysis delay
+                setTimeout(() => {
+                    // Simulated analysis result
+                    const results = ['✅', '❌', '🧐'];
+                    const itemDetails = [
+                        "Plastic Bottle - This item is recyclable. Please rinse it before disposal.",
+                        "Paper Cup - This item is NOT recyclable due to the wax coating.",
+                        "Aluminum Can - 100% recyclable. Ensure it's empty before recycling."
+                    ];
+                    const randomIndex = Math.floor(Math.random() * results.length);
+                    
+                    resultText.innerHTML = `This is ...`;
+                    resultEmoji.innerHTML = `<span class="big-emoji">${results[randomIndex]}</span>`;
+                    itemInfo.innerHTML = itemDetails[randomIndex];
+
+                    // Highlight Step 4 (Final result)
+                    updateSteps(3);
+                }, 2000); // Simulated backend processing time
+            } else {
+                // Return to live camera
+                canvas.style.display = 'none';
+                video.style.display = 'block';
+                scanButton.textContent = 'Scan Me';
+                resultText.innerHTML = "This is ...";
+                resultEmoji.innerHTML = "";
+                itemInfo.innerHTML = "Item details will appear here after analysis.";
+                scanning = true;
+
+                // Reset steps
+                updateSteps(0);
+            }
+        });
+
+        function updateSteps(currentStep) {
+            steps.forEach((step, index) => {
+                step.classList.remove('active', 'processing', 'final');
+
+                if (index === currentStep) {
+                    step.classList.add('active');
+                } 
+            });
+        }
+    </script>
+</body>
+</html>
