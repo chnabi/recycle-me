@@ -10,6 +10,7 @@ router: APIRouter = APIRouter()
 
 @router.post("/inform")
 async def inform_recycle(request: Request, image: UploadFile = File(...)):
+    print("first cheackpoint")
     image_data = await image.read()
     print(f"Received file: {image.filename}, Size: {len(image_data)} bytes")
     image_request: ImageRequest = ImageRequest(image=image_data)

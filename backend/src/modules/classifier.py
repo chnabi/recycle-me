@@ -16,6 +16,7 @@ class ClassifierModule:
 
     async def query_vision(self, image: ImageRequest):
         img_str = base64.b64encode(image.image).decode("utf-8")
+        print("arrived")
         response = await self.openai_client.chat.completions.create(
             model="gpt-4",  # Adjust the model if necessary
             messages=[
