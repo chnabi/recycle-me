@@ -29,7 +29,6 @@ async def inform_recycle(
 
     # Find recycling guidelines based on the material
     recycleable: str = await classifier_module.find_guidelines(
-        material, city, long, lat, county
+        material, city, long, lat, "Orange County"
     )
-
     return JSONResponse(content={"material": material, "recycling_info": recycleable})
