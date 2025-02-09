@@ -1,5 +1,5 @@
 {
-    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.13",
+    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.11",
     "customizations": {
         "vscode": {
             "extensions": [
@@ -21,7 +21,7 @@
             }
         }
     },
-    "postCreateCommand": "pip install -r requirements.txt && pip install pandas",
+    "postCreateCommand": "pip install --upgrade pip && pip install tensorflow==2.10.0 keras==2.10.0",
     "runArgs": [
         "--env",
         "OPENAI_API_KEY=<your-api-key>"

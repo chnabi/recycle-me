@@ -21,8 +21,12 @@ class ClassifierModule:
             model="gpt-4-turbo",  # Adjust the model if necessary
             messages=[
                 {
+                    "role": "system",
+                    "content": "You are an expert in recycling, identify the recycling category of the object in the picture If unsure, provide your best estimate. Use context of the brand and type of object as well",
+                },
+                {
                     "role": "user",
-                    "content": "What material is the object in this image made of (for recycling purposes)?",
+                    "content": "What is the primary material of the object in this image? Please provide a short phrase answer (e.g plastic bin, aluminum, etc).",
                 },
                 {"role": "user", "content": f"data:image/png;base64,{img_str}"},
             ],

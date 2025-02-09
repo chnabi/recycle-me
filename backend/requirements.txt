@@ -4,4 +4,13 @@ openai
 pydantic-settings
 pandas
 python-multipart
+tensorflow
+kagglehub
+numpy
+matplotlib
+opencv-python
+pillow
+
+
+
 
