@@ -63,6 +63,7 @@
         let long;
         let city = "";
         let county = "";
+        let savedResponse = null;
 
         // get users current position
         function getlocation() {
@@ -144,7 +145,9 @@
                             body: formData,
                         })
                         .then((response) => response.json())
-                        .then((json) => console.log(json))
+                        .then((data) => {
+                            const savedResponse = data;
+                        })
                         .catch((error) => console.error("Upload failed:", error));
 
                     }, "image/png", 1); // PNG with 50% quality

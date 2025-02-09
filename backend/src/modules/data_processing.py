@@ -98,7 +98,7 @@ recycling_data = {
         "plastic cup lids, plastic straws, single-use cups, rings, to-go containers, scrap metal, mixed metal, ladders, metal pots, metal hangers, mirrors, windows, glassware, greasy pizza boxes, styrofoam egg carton, plastic egg carton, greasy aluminum foil, small pieces of paper, small paper packaging, shredded paper, aerosol cans, batteries, ceramic items, toys, wires",
         "plastic bottles, plastic tubs, plastic jugs, plastic jars, metal cans, glass bottles, glass jars, paper, cartons, cardboard",
         "aerosol cans, aluminum foil, batteries, ceramic items, diapers, disposable cups, electronics, plastic bags, scrap metal, scrap wood, shredded paper, styrofoam, tires, toys, pie pans, metal hangers, household glass, wires",
-        "plastic bottles, plastic tubs, plastic jugs, plastic jars, metal cans, paper, cartons, cardboard",
+        "plastic bottles, plastic tubs, plastic jugs, plastic jars, metal cans, paper, cartons, cardboard, shoe, shoes, notebook, jar, soda can",
         "aerosol cans, batteries, ceramic items, diapers, electronics, glass bottles, glass jars, household glass, plastic bags, scrap metal, scrap wood, shredded paper, styrofoam, wires, tires, toys",
     ],
 }
@@ -351,7 +351,16 @@ def find_recyclable_material(
         "Tires",
         "Toys",
         "Wires",
-    ],
+        "Shoe",
+        "Notebook",
+        "Soda Can",
+        "Person", 
+        "plastic jars", 
+        "metal cans", 
+        "shoes", 
+        "notebook", 
+        "jar",
+        ],
 ) -> str | None:
     # Create a case-insensitive regex pattern to match any keyword
     pattern = r"\b(" + "|".join(re.escape(word) for word in keywords) + r")\b"
