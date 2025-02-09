@@ -33,8 +33,7 @@ class ClassifierModule:
             ],
         )
 
-        # Extract the material from the response
-        material = response.choices[0].message.content  # Adjust if needed
+        material = response.choices[0].message.content
         return material
 
     async def find_guidelines(self, material, geo_info: InfoRequest):
