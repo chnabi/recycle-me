@@ -11,6 +11,7 @@ router: APIRouter = APIRouter()
 @router.post("/inform")
 async def inform_recycle(request: Request, image: UploadFile = File(...)):
     image_data = await image.read()
+    print(f"Received file: {image.filename}, Size: {len(image_data)} bytes")
     image_request: ImageRequest = ImageRequest(image=image_data)
     classifier_module: ClassifierModule = request.app.state.classifier_module
     material = await classifier_module.query_vision(image_request)
