@@ -2,7 +2,7 @@ from fastapi import APIRouter, Form, File, UploadFile, Request
 from fastapi.responses import JSONResponse
 from io import BytesIO
 from src.modules.classifier import ClassifierModule
-
+from src.modules.data_processing import find_recyclable_material
 from src.models import InfoRequest
 
 router: APIRouter = APIRouter()
@@ -31,4 +31,9 @@ async def inform_recycle(
     recycleable: str = await classifier_module.find_guidelines(
         material, city, long, lat, county
     )
-    return JSONResponse(content={"material": material, "recycling_info": recycleable})
+    return JSONResponse(
+        content={
+            "material": find_recyclable_material(material),
+            "recycling_info": recycleable,
+        }
+    )

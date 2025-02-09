@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import math
+import re
 
 
 recycling_data = {
@@ -257,6 +258,7 @@ def haversine(lat1, lon1, lat2, lon2):
 
 
 def check_item_in_city(county, city, item, lat, long):
+    item_name = find_recyclable_material(item)
     # get rows for specified city
     city_data = recycling_df_filtered[recycling_df_filtered["City"] == city]
     # check if any of the columns contain the item
@@ -265,8 +267,11 @@ def check_item_in_city(county, city, item, lat, long):
         lambda row: row.str.contains(item, case=False, na=False).any(), axis=1
     )
     # if its within the guidelines we display:
-    if contains_item.any():
-        return "You can place this in your curbside recycling!"
+    # if contains_item.any():
+    #     return "You can place this in your curbside recycling!"
+    for i in range(len(contains_item)):
+        if item == contains_item[i]:
+            return "You can place this in your curbside recycling!"
 
     # get rows for specified county
     county_data = waste_center_split[waste_center_split["County"] == county]
@@ -292,10 +297,10 @@ def check_item_in_city(county, city, item, lat, long):
                 closest_center = (center_name, address)
         # if the item can go to a waste center we display:
         if closest_center:
-            return f"You cannot place your {item} in the curbside recycling. However, you may drop it off at your nearest waste {closest_center[0]}. {closest_center[0]} is located at {closest_center[1]}."
+            return f"You cannot place your {item_name} in the curbside recycling. However, you may drop it off at your nearest waste {closest_center[0]}. {closest_center[0]} is located at {closest_center[1]}."
 
     # if the item cannot be recycled nearby or needs to be trashed we display:
-    return "This item cannot be recycled in your area!"
+    return ["This item cannot be recycled in your area!"]
 
 
 def find_county_by_city(city):
@@ -303,3 +308,56 @@ def find_county_by_city(city):
     if not city_data.empty:
         return city_data["County"].iloc[0]
     return None
+
+
+def find_recyclable_material(
+    text: str,
+    keywords=[
+        "Aluminum",
+        "Aluminum foil",
+        "Batteries",
+        "Cardboard",
+        "Cartons",
+        "Ceramic items",
+        "Clean pizza boxes",
+        "Clothing",
+        "Corrugated cardboard",
+        "Diapers",
+        "Disposable cups",
+        "Electronics",
+        "Food boxes",
+        "Glass bottles",
+        "Glass jars",
+        "Glassware",
+        "Greasy pizza boxes",
+        "Magazines",
+        "Metal cans",
+        "Mixed paper",
+        "Newspapers",
+        "Paper",
+        "Paper bags",
+        "Plastic bags",
+        "Plastic bottles",
+        "Plastic cups",
+        "Plastic jugs",
+        "Plastic lids",
+        "Plastic straws",
+        "Plastic tubs",
+        "Scrap metal",
+        "Shredded paper",
+        "Single-use cups",
+        "Styrofoam",
+        "Textiles",
+        "Tires",
+        "Toys",
+        "Wires",
+    ],
+) -> str | None:
+    # Create a case-insensitive regex pattern to match any keyword
+    pattern = r"\b(" + "|".join(re.escape(word) for word in keywords) + r")\b"
+
+    # Search for a match in the text
+    match = re.search(pattern, text, re.IGNORECASE)
+
+    # Return the matched keyword (in its original case from the list) or None
+    return match.group(0) if match else " "

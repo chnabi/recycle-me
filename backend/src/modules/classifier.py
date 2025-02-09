@@ -27,7 +27,7 @@ class ClassifierModule:
                 },
                 {
                     "role": "user",
-                    "content": "What is the object in this image? Please include a description of the material. Give a short phrase or one word answer in plain text",
+                    "content": "What is the object in this image? Please include a description of the material. Give a one to two word response",
                 },
                 {"role": "user", "content": f"data:image/png;base64,{img_str}"},
             ],
