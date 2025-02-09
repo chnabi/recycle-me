@@ -21,7 +21,7 @@ class ClassifierModule:
                     "role": "user",
                     "content": "What material is the object in this image made of? Please provide the material type only (e.g., plastic, glass, metal).",
                 },
-                {"role": "user", "content": f"data:image/jpeg;base64,{image.image}"},
+                {"role": "user", "content": f"{image.image}"},
             ],
         )
 
