@@ -12,13 +12,14 @@ from openai import AsyncOpenAI, completions
 from fastapi.middleware.cors import CORSMiddleware
 
 
-
 # Add src directory to Python path
 sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 
 
 # internal imports
 from src.globals.environment import Environment
+from src.api.routes import router
+from src.modules.classifier import ClassifierModule
 
 
 def setup_clients(app: FastAPI):
@@ -32,11 +33,19 @@ def setup_globals(app: FastAPI):
     app.state.environment = enviornment
 
 
+def setup_modules(app: FastAPI):
+    classifier_module: ClassifierModule = ClassifierModule(
+        openai_client=app.state.openai_client
+    )
+    app.state.classifier_module = classifier_module
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # setup
     setup_globals(app=app)
     setup_clients(app=app)
+    setup_modules(app=app)
     yield
 
 
@@ -49,3 +58,5 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(router)
