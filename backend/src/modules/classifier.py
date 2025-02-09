@@ -13,7 +13,7 @@ class ClassifierModule:
     def __init__(self, openai_client: AsyncOpenAI):
         self.openai_client = openai_client
 
-    async def query_vision(self, image_url: ImageRequest):
+    async def query_vision(self, image: ImageRequest):
         response = await self.openai_client.chat.completions.create(
             model="gpt-4",  # Adjust the model if necessary
             messages=[
@@ -21,10 +21,7 @@ class ClassifierModule:
                     "role": "user",
                     "content": "What material is the object in this image made of? Please provide the material type only (e.g., plastic, glass, metal).",
                 },
-                {
-                    "role": "user",
-                    "content": image_url.image,  # Now passing the URL
-                },
+                {"role": "user", "content": f"data:image/jpeg;base64,{image.image}"},
             ],
         )
 
