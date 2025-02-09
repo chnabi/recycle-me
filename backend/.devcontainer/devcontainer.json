@@ -1,12 +1,10 @@
 {
-    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.11",
+    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.13",
     "customizations": {
         "vscode": {
             "extensions": [
                 "ms-python.python",
-                "ms-python.black-formatter",
-                "ms-python.vscode-pylance",
-                "ckolkman.vscode-postgres"
+                "ms-python.black-formatter"
             ],
             "settings": {
                 "[python]": {
@@ -20,15 +18,14 @@
             }
         }
     },
-    "postCreateCommand": "pip install -r requirements.txt && pip install pandas psycopg2-binary",
-    "remoteEnv": {
-        "OPENAI_API_KEY": "${localEnv:OPENAI_API_KEY}"
-    },
+    "postCreateCommand": "pip install -r requirements.txt && pip install pandas",
+    "runArgs": [
+        "--env",
+        "OPENAI_API_KEY=<your-api-key>"
+    ],
     "features": {
-        "ghcr.io/devcontainers/features/postgres:1": {
-            "version": "15",
-            "password": "postgres"
+        "postgres": {
+            "version": "latest"
         }
-    },
-    "forwardPorts": [5432, 8000]
+    }
 }
