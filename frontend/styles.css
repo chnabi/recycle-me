@@ -1,164 +1,174 @@
+
 :root {
-    --soft-beige: #e8dfbc;
-    --warm-orange: #d9884a;
-    --dark-or: #c26d2c;
-    --pale-green: #B1D7B4;
-    --deep-green: #4b8253;
- }
- 
- 
- /* General Styling */
- body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-image: url("images/backgroundd.jpg");
-    background-size: cover;
- }
- 
- 
- /* Boxed Header */
- .header {
-    background-color: var(--soft-beige);
-    padding: 20px;
-    border-radius: 12px;
-    text-align: center;
-    max-width: 800px;
-    margin-top: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
- }
- 
- 
- h1 {
-    color: var(--deep-green);
-    margin-bottom: 20px;
-    margin-top: 15px;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-size: 45px;
- }
- 
- 
- h2 {
-    color: var(--dark-or);
- }
- 
- 
- .description {
-    font-size: 18px;
-    color: var(--deep-green);
- }
- 
- 
- /* Main Layout */
- .container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    width: 90%;
-    max-width: 1400px;
-    margin-top: 20px;
-    gap: 20px;
- }
- 
- 
- /* Beige Box for Instructions */
- .instructions, .camera-box, .info-box {
-    width: 30%;
-    padding: 20px;
-    background-color: var(--soft-beige);
-    border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    color: var(--warm-orange);
- }
- 
- 
- /* Camera Styling */
- video, canvas {
-    width: 85%;
-    max-width: 320px;
-    border-radius: 8px;
-    display: block;
-    margin: 0 auto;
-    text-align: center;
- }
- 
- 
- /* Button Styling */
- button {
-    background-color: #7ca97f;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
-    border-radius: 5px;
-    display: block;
-    margin: 10px auto;
-    text-align: center;
- }
- 
- 
- button:hover {
-    background-color: var(--deep-green);
- }
- 
- 
- /* Step Styling */
- .step {
-    padding: 8px;
-    transition: color 0.3s, font-weight 0.3s;
- }
- 
- 
- .step.active {
-    color: var(--deep-green);
-    font-weight: bold;
- }
- 
- 
- /* Result Emoji */
- .big-emoji {
-    font-size: 80px;
-    display: block;
-    margin-top: 20px;
-    text-align: center;
- }
- 
- 
- /* Information Box */
- .info-box p {
-    font-size: 16px;
-    text-align: left;
- }
- 
- 
- /* Mobile Responsiveness */
- @media (max-width: 768px) {
-    .header {
-        width: 90%;
-        margin: 20px auto;
-    }
- 
- 
-    .container {
-        flex-direction: column;
-        align-items: center;
-    }
- 
- 
-    .instructions, .camera-box, .info-box {
-        width: 90%;
-        margin-bottom: 20px;
-    }
- 
- 
-    video, canvas {
-        width: 100%;
-        max-width: 100%;
-    }
- }
- 
+   --soft-beige: #e8dfbc;
+   --warm-orange: #d9884a;
+   --dark-or: #c26d2c;
+   --pale-green: #B1D7B4;
+   --deep-green: #4b8253;
+}
+
+/* General Styling */
+body {
+   font-family: Arial, sans-serif;
+   margin: 0;
+   padding: 0;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   background-image: url("images/backgroundd.jpg");
+   background-size: cover;
+}
+
+/* Boxed Header */
+.header {
+   background-color: var(--soft-beige);
+   padding: 20px;
+   border-radius: 12px;
+   text-align: center;
+   max-width: 800px;
+   margin-top: 20px;
+   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+   color: var(--deep-green);
+   margin-bottom: 20px;
+   margin-top: 15px;
+   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+   font-size: 45px;
+}
+
+h2 {
+   color: var(--dark-or);
+}
+
+.description {
+   font-size: 18px;
+   color: var(--deep-green);
+}
+
+/* Main Layout */
+.container {
+   display: flex;
+   justify-content: center;
+   align-items: flex-start;
+   width: 90%;
+   max-width: 1400px;
+   margin-top: 20px;
+   gap: 20px;
+}
+
+/* Column Layout */
+.right-column {
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
+   width: 30%;
+}
+
+/* Beige Box for Instructions */
+.instructions, .camera-box, .info-box, .manual-box {
+   padding: 20px;
+   background-color: var(--soft-beige);
+   border-radius: 12px;
+   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+   color: var(--warm-orange);
+}
+
+.instructions, .camera-box {
+   width: 30%;
+}
+
+/* Camera Styling */
+video, canvas {
+   width: 85%;
+   max-width: 320px;
+   border-radius: 8px;
+   display: block;
+   margin: 0 auto;
+   text-align: center;
+}
+
+/* Button Styling */
+button {
+   background-color: #7ca97f;
+   color: white;
+   border: none;
+   padding: 12px 20px;
+   font-size: 16px;
+   cursor: pointer;
+   margin-top: 10px;
+   border-radius: 5px;
+   display: block;
+   margin: 10px auto;
+   text-align: center;
+}
+
+button:hover {
+   background-color: var(--deep-green);
+}
+
+/* Step Styling */
+.step {
+   padding: 8px;
+   transition: color 0.3s, font-weight 0.3s;
+}
+
+.step.active {
+   color: var(--deep-green);
+   font-weight: bold;
+}
+
+/* Result Emoji */
+.big-emoji {
+   font-size: 80px;
+   display: block;
+   margin-top: 20px;
+   text-align: center;
+}
+
+/* Information Box */
+.info-box p {
+   font-size: 16px;
+   text-align: left;
+}
+
+/* Manual Input Styling */
+.material-input {
+   width: 100%;
+   padding: 10px;
+   border: 2px solid var(--pale-green);
+   border-radius: 5px;
+   font-size: 16px;
+   color: var(--deep-green);
+   background-color: white;
+   box-sizing: border-box;
+   margin-bottom: 10px;
+}
+
+.material-input:focus {
+   outline: none;
+   border-color: var(--deep-green);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+   .header {
+       width: 90%;
+       margin: 20px auto;
+   }
+
+   .container {
+       flex-direction: column;
+       align-items: center;
+   }
+
+   .instructions, .camera-box, .right-column {
+       width: 90%;
+   }
+
+   video, canvas {
+       width: 100%;
+       max-width: 100%;
+   }
+}
