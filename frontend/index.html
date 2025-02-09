@@ -112,8 +112,8 @@
         scanButton.addEventListener('click', () => {
             if (scanning) {
                 const context = canvas.getContext('2d');
-                canvas.width = video.videoWidth/3;
-                canvas.height = video.videoHeight/3;
+                canvas.width = video.videoWidth/2;
+                canvas.height = video.videoHeight/2;
                 context.drawImage(video, 0, 0, canvas.width, canvas.height);
                 
                 canvas.toBlob((blob) => {

@@ -300,7 +300,7 @@ def check_item_in_city(county, city, item, lat, long):
             return f"You cannot place your {item_name} in the curbside recycling. However, you may drop it off at your nearest waste {closest_center[0]}. {closest_center[0]} is located at {closest_center[1]}."
 
     # if the item cannot be recycled nearby or needs to be trashed we display:
-    return ["This item cannot be recycled in your area!"]
+    return "This item cannot be recycled in your area!"
 
 
 def find_county_by_city(city):
