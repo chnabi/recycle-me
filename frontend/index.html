@@ -48,7 +48,7 @@
         
 
         let scanning = true;
-        const myAPIKey = "nice try";
+        const myAPIKey = "d8461e0e6a1c427e8b73336d3e77a241";
         var resb64 ="";
         let lat; 
         let long;
@@ -62,12 +62,16 @@
             lat = pos.coords.latitude;
             long = pos.coords.longitude;
             console.log(lat + " " + long);
+
+            getCityFromCoords(lat, long, myAPIKey)
+                .then(city => console.log("City:", city))
+                .catch(error => consol.error(error));
         }
 
         //convert users position to recycling district
 
         async function getCityFromCoords(latitude, longitude, apiKey) {
-            const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&apiKey=${apiKey}`;
+            const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&apiKey=${apiKey}`;
 
             try {
                 const response = await fetch(url);
@@ -83,13 +87,6 @@
                 return "Error fetching data";
             }
         }
-
-        console.log(lat + "testing" + long);
-        getCityFromCoords(lat, long, myAPIKey)
-            .then(city => console.log("City:", city))
-            .catch(error => console.error(error));
-
-
         
         //start video feed
         navigator.mediaDevices.getUserMedia({ video: true })
@@ -112,6 +109,7 @@
 
                         const formData = new FormData();
                         formData.append("file", blob, "captured_image.png");
+                        console.log(formData);
                         fetch("http://127.0.0.1:8000/inform", {
                             method: "POST",
                             mode: "cors",
