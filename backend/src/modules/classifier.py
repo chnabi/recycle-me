@@ -19,10 +19,14 @@ class ClassifierModule:
         print("arrived")
         response = await self.openai_client.chat.completions.create(
             model="gpt-4-turbo",  # Adjust the model if necessary
-            messages=[
+                messages=[
+                {
+                    "role": "system",
+                    "content": "You are an expert in material identification for recycling purposes. Analyze the image and determine the primary material of the object shown. Focus on common recyclable materials such as plastic, glass, metal, paper, or cardboard. If unsure, provide your best estimate and explain your reasoning.",
+                },
                 {
                     "role": "user",
-                    "content": "What material is the object in this image made of (for recycling purposes)?",
+                    "content": "What is the primary material of the object in this image? Please provide a short phrase answer (e.g ).",
                 },
                 {"role": "user", "content": f"data:image/png;base64,{img_str}"},
             ],
