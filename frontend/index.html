@@ -120,8 +120,8 @@
         scanButton.addEventListener('click', () => {
             if (scanning) {
                 const context = canvas.getContext('2d');
-                canvas.width = video.videoWidth/2;
-                canvas.height = video.videoHeight/2;
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
                 context.drawImage(video, 0, 0, canvas.width, canvas.height);
                 
                 canvas.toBlob((blob) => {
@@ -147,7 +147,7 @@
                         .then((json) => console.log(json))
                         .catch((error) => console.error("Upload failed:", error));
 
-                    }, "image/png", 0.7); // PNG with 50% quality
+                    }, "image/png", 1); // PNG with 50% quality
                 
 
                 canvas.style.display = 'block';
