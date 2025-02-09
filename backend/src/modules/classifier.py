@@ -36,8 +36,6 @@ class ClassifierModule:
         material = response.choices[0].message.content
         return material
 
-    async def find_guidelines(self, material, geo_info: InfoRequest):
-        response = check_item_in_city(
-            geo_info.county, geo_info.city, material, geo_info.lat, geo_info.long
-        )
+    async def find_guidelines(self, material, city, long, lat, county):
+        response = check_item_in_city(county, city, material, lat, long)
         return response

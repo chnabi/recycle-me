@@ -11,15 +11,25 @@ router: APIRouter = APIRouter()
 @router.post("/inform")
 async def inform_recycle(
     request: Request,
+    file: UploadFile = File(...),
     city: str = Form(...),
     long: float = Form(...),
     lat: float = Form(...),
     county: str = Form(...),
-    img: UploadFile = File(...),
-):
-    image_data = await img.read()
-    # data = InfoRequest(city, long, lat, county)
-    classifier_module: ClassifierModule = request.app.state.classifier_module
+):  # Use File for image
+
+    # Read the uploaded image file
+    image_data = await file.read()
+
+    # Get the classifier module from the app state
+    classifier_module = request.app.state.classifier_module
+
+    # Classify the image using the classifier module
     material = await classifier_module.query_vision(image_data)
-    # recycleable: str = await classifier_module.find_guidelines(material, data)
-    return {"material": material}
+
+    # Find recycling guidelines based on the material
+    recycleable: str = await classifier_module.find_guidelines(
+        material, city, long, lat, county
+    )
+
+    return JSONResponse(content={"material": material, "recycling_info": recycleable})
