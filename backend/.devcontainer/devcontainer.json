@@ -1,19 +1,18 @@
 {
-    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.13",
+    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.11",
     "customizations": {
         "vscode": {
             "extensions": [
                 "ms-python.python",
-                "ms-python.black-formatter"
+                "ms-python.black-formatter",
+                "ms-python.vscode-pylance",
+                "ckolkman.vscode-postgres"
             ],
             "settings": {
                 "[python]": {
                     "editor.defaultFormatter": "ms-python.black-formatter"
                 },
-                "python.formatting.blackArgs": [
-                    "--line-length",
-                    "120"
-                ],
+                "python.formatting.blackArgs": ["--line-length", "120"],
                 "editor.formatOnSave": true,
                 "python.linting.enabled": true,
                 "python.linting.pylintEnabled": true,
@@ -21,9 +20,15 @@
             }
         }
     },
-    "postCreateCommand": "pip install -r requirements.txt && pip install pandas",
-    "runArgs": [
-        "--env",
-        "OPENAI_API_KEY=<your-api-key>"
-    ]
+    "postCreateCommand": "pip install -r requirements.txt && pip install pandas psycopg2-binary",
+    "remoteEnv": {
+        "OPENAI_API_KEY": "${localEnv:OPENAI_API_KEY}"
+    },
+    "features": {
+        "ghcr.io/devcontainers/features/postgres:1": {
+            "version": "15",
+            "password": "postgres"
+        }
+    },
+    "forwardPorts": [5432, 8000]
 }
