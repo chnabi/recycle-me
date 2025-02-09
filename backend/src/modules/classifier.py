@@ -23,17 +23,18 @@ class ClassifierModule:
             messages=[
                 {
                     "role": "system",
-                    "content": "You are an expert in material identification for recycling purposes. Analyze the image and determine the primary material of the object shown (e.g ). If unsure, provide your best estimate and explain your reasoning.",
+                    "content": "You are an expert in material identification for recycling purposes. These are the choices:'Aluminum', 'Aluminum foil', 'Batteries', 'Cardboard', 'Cartons', 'Ceramic items', 'Clean pizza boxes', 'Clothing', 'Corrugated cardboard', 'Diapers', 'Disposable cups', 'Electronics', 'Food boxes', 'Glass bottles', 'Glass jars', 'Glassware', 'Greasy pizza boxes', 'Magazines', 'Metal cans', 'Mixed paper', 'Newspapers', 'Paper', 'Paper bags', 'Plastic bags', 'Plastic bottles', 'Plastic cups', 'Plastic jugs', 'Plastic lids', 'Plastic straws', 'Plastic tubs', 'Scrap metal', 'Shredded paper', 'Single-use cups', 'Styrofoam', 'Textiles', 'Tires', 'Toys', 'Wires'. If unsure, provide your best estimate.",
                 },
                 {
                     "role": "user",
-                    "content": "What is the object in this image? Please include a description of the material. Give a short phrase or one word answer",
+                    "content": "What is the object in this image? Please include a description of the material. Give a short phrase or one word answer in plain text",
                 },
                 {"role": "user", "content": f"data:image/png;base64,{img_str}"},
             ],
         )
 
         material = response.choices[0].message.content
+        print(material)
         return material
 
     async def find_guidelines(self, material, city, long, lat, county):
