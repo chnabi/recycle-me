@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from io import BytesIO
-from fastapi import UploadFile
+from fastapi import UploadFile, File
 from enum import Enum
 
 
@@ -11,16 +11,17 @@ class RecycleEnum(Enum):
 
 
 class InfoRequest(BaseModel):
-    img: UploadFile
+    img: str
     city: str
-    long: int
-    lat: int
+    long: float
+    lat: float
+    county: str
 
 
 class InfoOutput(BaseModel):
     recycleable: RecycleEnum
     info: str
-    waste_center: str | None
+    material: str
 
 
 class MaterialOutput(BaseModel):
